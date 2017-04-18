@@ -1,4 +1,4 @@
-package com.target.model;
+package com.target.model.beans;
 
 public class Price {
 

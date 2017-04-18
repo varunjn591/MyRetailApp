@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 			if(result != null){
 				productDescResponse = new JSONObject(result);
 			}else{
-				
+				logger.error("Error no data returned");
 			}
 			
 		} catch(JSONException j){

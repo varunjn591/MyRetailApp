@@ -1,4 +1,4 @@
-package com.target.util;
+package com.target.service.util;
 
 
 import org.json.JSONException;
