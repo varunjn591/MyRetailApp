@@ -5,7 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 //make sure you check all cases
-public class retailUtilityService {
+public class RetailUtility {
 
 	public String getProductName(JSONObject productDesc) {
 
