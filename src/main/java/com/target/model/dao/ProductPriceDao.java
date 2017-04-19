@@ -1,11 +1,11 @@
 package com.target.model.dao;
 
-import com.target.model.beans.ProductPrice;
+import com.target.bo.response.CurrentPrice;
 
 public interface ProductPriceDao {
 
-	public ProductPrice getProductPrice(String productId);
+	public CurrentPrice getCurrentPrice(String productId);
 	
-	public void updateProductPrice(String productId, Double price); 
+	public void updateCurrentPrice(String productId, Double price); 
 	
 }

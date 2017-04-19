@@ -1,6 +1,16 @@
 package com.target.bo.response;
 
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder(alphabetic = true)
 public class RetailResponse extends BaseResponse{
 
 	private static final long serialVersionUID = -2237085394092921378L;

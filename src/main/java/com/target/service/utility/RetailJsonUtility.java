@@ -1,11 +1,13 @@
-package com.target.service.util;
+package com.target.service.utility;
 
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 //make sure you check all cases
-public class RetailUtility {
+@Component
+public class RetailJsonUtility {
 
 	public String getProductName(JSONObject productDesc) {
 

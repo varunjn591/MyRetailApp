@@ -4,6 +4,6 @@ import com.target.bo.response.BaseResponse;
 
 public interface RetailService {
 	
-	public BaseResponse getProductPrice();
+	public BaseResponse getProductDetails(String productId);
 	
 }

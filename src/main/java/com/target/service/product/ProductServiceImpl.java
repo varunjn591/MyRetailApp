@@ -11,7 +11,9 @@ import org.apache.commons.logging.Log;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
+@Component("productService")
 public class ProductServiceImpl implements ProductService {
 
 	private Log logger;
