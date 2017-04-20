@@ -32,13 +32,13 @@ public class RetailServiceImpl implements RetailService {
 		curr.setValue(12.20);;
 		response.setCurrent_price(curr);
 		response.setId(productId);
-		response.setName("BigLebosky");
-		/*JSONObject productDesc = productService.getProductServiceResponse();
+		JSONObject productDesc = productService.getProductServiceResponse();
 		String title = retailJsonUtility.getProductName(productDesc);
-		CurrentPrice currentPrice = productPriceDao.getCurrentPrice(productId);
+		/*CurrentPrice currentPrice = productPriceDao.getCurrentPrice(productId);
 		response.setId(productId);
-		response.setName(title);
 		response.setCurrent_price(currentPrice);*/
+		response.setName(title);
+		
 		return response;
 	}
 

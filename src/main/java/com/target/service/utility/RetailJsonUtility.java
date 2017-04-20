@@ -14,7 +14,8 @@ public class RetailJsonUtility {
 		String productName = null;
 
 		try {
-			JSONObject item = productDesc.getJSONObject("item");
+			JSONObject product = productDesc.getJSONObject("product");
+			JSONObject item = product.getJSONObject("item");
 			JSONObject product_desc = item.getJSONObject("product_description");
 			productName = product_desc.getString("title");
 		} catch (JSONException e) {
