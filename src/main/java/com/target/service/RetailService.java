@@ -1,9 +1,9 @@
 package com.target.service;
 
-import com.target.bo.response.BaseResponse;
+import com.target.bo.response.RetailResponse;
 
 public interface RetailService {
 	
-	public BaseResponse getProductDetails(String productId);
+	public RetailResponse getProductDetails(String productId);
 	
 }

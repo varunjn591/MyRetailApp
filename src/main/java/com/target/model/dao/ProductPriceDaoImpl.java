@@ -21,7 +21,7 @@ public class ProductPriceDaoImpl implements ProductPriceDao {
 	@Override
 	public CurrentPrice getCurrentPrice(String productId) {
 		Query query = query(where("productId").is(productId)); 
-		CurrentPrice currentPrice = mongoTemplate.findOne(query,CurrentPrice.class,"currentPrice");
+		CurrentPrice currentPrice = mongoTemplate.findOne(query,CurrentPrice.class,"productPrice");
 		return currentPrice;
 	}
 

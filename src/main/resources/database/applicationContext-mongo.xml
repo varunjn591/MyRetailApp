@@ -20,7 +20,7 @@
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongo" ref="mongo" />
 		<constructor-arg name="databaseName" value="RetailProductPrice" />
-		<constructor-arg name="userCredentials" ref="mongoCredentials" />
+		<!-- <constructor-arg name="userCredentials" ref="mongoCredentials" /> -->
 	</bean>
 
 	<!-- Use this post processor to translate any MongoExceptions thrown in 

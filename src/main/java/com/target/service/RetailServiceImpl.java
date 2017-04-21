@@ -4,7 +4,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.target.bo.response.BaseResponse;
 import com.target.bo.response.CurrentPrice;
 import com.target.bo.response.RetailResponse;
 import com.target.model.dao.ProductPriceDao;
@@ -24,19 +23,20 @@ public class RetailServiceImpl implements RetailService {
 	RetailJsonUtility retailJsonUtility;
 
 	@Override
-	public BaseResponse getProductDetails(String productId) {
+	public RetailResponse getProductDetails(String productId) {
 		
+		/*
+		 * check for null
+		 * 
+		 * 
+		 */
 		RetailResponse response = new RetailResponse();
-		CurrentPrice curr = new CurrentPrice();
-		curr.setCurrency_code("USD");
-		curr.setValue(12.20);;
-		response.setCurrent_price(curr);
 		response.setId(productId);
 		JSONObject productDesc = productService.getProductServiceResponse();
 		String title = retailJsonUtility.getProductName(productDesc);
-		/*CurrentPrice currentPrice = productPriceDao.getCurrentPrice(productId);
+		CurrentPrice currentPrice = productPriceDao.getCurrentPrice(productId);
 		response.setId(productId);
-		response.setCurrent_price(currentPrice);*/
+		response.setCurrent_price(currentPrice);
 		response.setName(title);
 		
 		return response;
