@@ -19,7 +19,7 @@ public class RetailJsonUtility {
 			JSONObject product_desc = item.getJSONObject("product_description");
 			productName = product_desc.getString("title");
 		} catch (JSONException e) {
-			e.printStackTrace();
+			return null;
 		}
 		
 		

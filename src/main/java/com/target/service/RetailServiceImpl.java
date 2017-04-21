@@ -14,13 +14,13 @@ import com.target.service.utility.RetailJsonUtility;
 public class RetailServiceImpl implements RetailService {
 
 	@Autowired
-	ProductService productService;
+	private ProductService productService;
 	
 	@Autowired
-	ProductPriceDao productPriceDao;
+	private ProductPriceDao productPriceDao;
 	
 	@Autowired
-	RetailJsonUtility retailJsonUtility;
+	private RetailJsonUtility retailJsonUtility;
 
 	@Override
 	public RetailResponse getProductDetails(String productId) {
@@ -32,9 +32,26 @@ public class RetailServiceImpl implements RetailService {
 		 */
 		RetailResponse response = new RetailResponse();
 		response.setId(productId);
-		JSONObject productDesc = productService.getProductServiceResponse();
+		JSONObject productDesc = productService.getProductServiceResponse(productId);
+		//here you should put offer exception
+		if(productDesc == null){
+			response.setSuccess(false);
+			response.setErrorCode("Target Product Service did not return any details");
+			return response;
+		}
 		String title = retailJsonUtility.getProductName(productDesc);
-		CurrentPrice currentPrice = productPriceDao.getCurrentPrice(productId);
+		if(title == null){
+			response.setSuccess(false);
+			response.setErrorCode("No title found");
+			return response;
+		}
+		//CurrentPrice currentPrice = productPriceDao.getCurrentPrice(productId);
+		CurrentPrice currentPrice = new CurrentPrice();
+		/*if(currentPrice.getValue() == null){
+			response.setSuccess(false);
+			response.setErrorCode("No title found");
+			return response;
+		}*/
 		response.setId(productId);
 		response.setCurrent_price(currentPrice);
 		response.setName(title);

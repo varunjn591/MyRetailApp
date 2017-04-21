@@ -21,8 +21,10 @@ public class ProductControllerTest {
 	@Test
 	public void test() {
 		
-		RetailResponse title = retailService.getProductDetails("123456");
+		RetailResponse title = retailService.getProductDetails("13860428");
 		assertEquals("The Big Lebowski (Blu-ray)",title.getName());
+		
+		
 	}
 
 }

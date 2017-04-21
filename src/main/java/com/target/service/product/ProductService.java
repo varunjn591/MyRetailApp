@@ -5,5 +5,5 @@ import org.json.JSONObject;
 /*Services provided by Product API*/
 public interface ProductService {
 
-	public JSONObject getProductServiceResponse();
+	public JSONObject getProductServiceResponse(String productId);
 }
