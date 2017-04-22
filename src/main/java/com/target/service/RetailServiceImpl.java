@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import com.target.bo.response.CurrentPrice;
 import com.target.bo.response.RetailResponse;
+import com.target.exception.ErrorCode;
+import com.target.exception.RetailException;
 import com.target.model.dao.ProductPriceDao;
 import com.target.service.product.ProductService;
 import com.target.service.utility.RetailJsonUtility;
@@ -33,17 +35,12 @@ public class RetailServiceImpl implements RetailService {
 		RetailResponse response = new RetailResponse();
 		response.setId(productId);
 		JSONObject productDesc = productService.getProductServiceResponse(productId);
-		//here you should put offer exception
 		if(productDesc == null){
-			response.setSuccess(false);
-			response.setErrorCode("Target Product Service did not return any details");
-			return response;
+			throw new RetailException(ErrorCode.NOTFOUND);
 		}
 		String title = retailJsonUtility.getProductName(productDesc);
 		if(title == null){
-			response.setSuccess(false);
-			response.setErrorCode("No title found");
-			return response;
+			throw new RetailException(ErrorCode.NOTFOUND);
 		}
 		//CurrentPrice currentPrice = productPriceDao.getCurrentPrice(productId);
 		CurrentPrice currentPrice = new CurrentPrice();
