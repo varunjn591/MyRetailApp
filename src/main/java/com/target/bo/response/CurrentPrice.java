@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
@@ -14,9 +14,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class CurrentPrice implements Serializable{
 
 	private static final long serialVersionUID = 831494477278060163L;
-
-
-	private double value;
+	
+	private double value = -1;
 
 	private String currency_code;
 

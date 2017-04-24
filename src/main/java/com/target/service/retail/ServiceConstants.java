@@ -1,4 +1,4 @@
-package com.target.service;
+package com.target.service.retail;
 
 public interface ServiceConstants {
 

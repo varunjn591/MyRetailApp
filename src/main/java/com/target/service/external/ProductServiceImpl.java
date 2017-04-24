@@ -1,4 +1,4 @@
-package com.target.service.product;
+package com.target.service.external;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,9 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.target.common.AppConfig;
-import com.target.service.ServiceConstants;
+import com.target.exception.ErrorCode;
+import com.target.exception.RetailException;
+import com.target.service.retail.ServiceConstants;
 
 @Component("productService")
 public class ProductServiceImpl implements ProductService {
@@ -28,24 +30,33 @@ public class ProductServiceImpl implements ProductService {
 	private Log logger;
 
 	/*
-	 * check status, check connection timeout, check socket timeout
+	 * 
 	 */
 	@Override
 	public JSONObject getProductServiceResponse(String productId) {
+		
+		if(productId == null){
+			logger.error("productId is not present");
+			return null;
+		}
+		
 		String productDescriptionUrl = appConfig.getProperty(ServiceConstants.TARGET_PRODUCT_DETAILS_URL);
 		String excludeValues = appConfig.getProperty(ServiceConstants.TARGET_PRODUCT_DETAILS_EXCLUDES_VALUES);
 		int socketTimeout = appConfig.getInt(ServiceConstants.TARGET_GENERAL_SOCKET_TIMEOUT);
 		int connectionTimeout = appConfig.getInt(ServiceConstants.TARGET_GENERAL_CONNECTION_TIMEOUT);
+		
+		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+		requestFactory.setConnectTimeout(socketTimeout);
+		requestFactory.setReadTimeout(connectionTimeout);
+		RestTemplate restTemplate = new RestTemplate(requestFactory);
+		
 		JSONObject productDescResponse = null;
 		StringBuffer productUrl = new StringBuffer();
 		Map<String,String> params = new HashMap<String,String>();
 		params.put(ServiceConstants.TARGET_PRODUCT_EXCLUDES_KEY, excludeValues);
 		String responseBody = null;
 		ResponseEntity<String> response = null;
-		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-		requestFactory.setConnectTimeout(socketTimeout);
-		requestFactory.setReadTimeout(connectionTimeout);
-		RestTemplate restTemplate = new RestTemplate(requestFactory);
+		
 		try {
 			productUrl.append(productDescriptionUrl);
 			productUrl.append(ServiceConstants.SLASH + productId);
@@ -55,12 +66,11 @@ public class ProductServiceImpl implements ProductService {
 			productDescResponse = new JSONObject(responseBody);
 
 		} catch (JSONException j) {
-			logger.error("Error parsing JSON");
-			return null;
+			throw new RetailException(ErrorCode.NOTFOUND,"No title information available about product: " + productId);
 		} catch (ResourceAccessException e){
-			return null;
+			throw new RetailException(ErrorCode.NOTFOUND,"Error Occured while accesing Product Details Service");
 		} catch(HttpClientErrorException j){
-			return null;
+			throw new RetailException(ErrorCode.NOTFOUND,"Threw was HTTP Exception for Product Details Service");
 		}
 		return productDescResponse;
 	}

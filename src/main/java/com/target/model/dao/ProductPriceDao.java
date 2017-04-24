@@ -6,6 +6,6 @@ public interface ProductPriceDao {
 
 	public CurrentPrice getCurrentPrice(String productId);
 	
-	public void updateCurrentPrice(String productId, Double price); 
+	public void updateCurrentPrice(String productId, CurrentPrice currentPrice); 
 	
 }

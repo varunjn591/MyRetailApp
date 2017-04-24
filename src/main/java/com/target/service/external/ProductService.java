@@ -1,4 +1,4 @@
-package com.target.service.product;
+package com.target.service.external;
 
 import org.json.JSONObject;
 
