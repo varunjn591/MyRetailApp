@@ -6,8 +6,13 @@
 	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<!-- Factory bean that creates the Mongo instance -->
+	<bean id="mongoOptions" class="org.springframework.data.mongodb.core.MongoOptionsFactoryBean">
+		<property name="connectTimeout" value="2000" />
+		<property name="socketTimeout" value="2000" />
+	</bean>
 	<bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
 		<property name="host" value="localhost" />
+		<property name="mongoOptions" ref="mongoOptions"></property>
 	</bean>
 
 	<bean id="mongoCredentials" class="org.springframework.data.authentication.UserCredentials">
