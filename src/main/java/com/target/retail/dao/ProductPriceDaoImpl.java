@@ -31,8 +31,11 @@ public class ProductPriceDaoImpl implements ProductPriceDao {
 		Product product = new Product();
 		try {
 			product = mongoTemplate.findOne(query, Product.class, "productPrice");
+			if(product == null){
+				return null;
+			}
 		} catch (Exception e) {
-			throw new RetailException(ErrorCode.NOTSUCCEDDED, "Unable to update database");
+			throw new RetailException(ErrorCode.NOTSUCCEDDED, "could not find in database");
 		}
 		return product.getCurrentPrice();
 	}

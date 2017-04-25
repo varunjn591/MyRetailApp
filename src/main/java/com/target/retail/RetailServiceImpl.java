@@ -55,7 +55,9 @@ public class RetailServiceImpl implements RetailService {
 
 	@Override
 	public BaseResponse updateProductPriceDetails(String productId, CurrentPrice currentPrice) {
-		requestValidator.validateCurrentPrice(currentPrice);
+		if("".equals(productId) || productId.isEmpty()){
+			throw new RetailException(ErrorCode.NOTFOUND, "Current Price not available in database for " + productId);
+		}
 		productPriceDao.updateCurrentPrice(productId, currentPrice);
 		return new BaseResponse(true, "Updated Database!");
 	}

@@ -17,45 +17,60 @@ public class ProductPriceDaoImplTest {
 
 	@Autowired
 	ProductPriceDao productPriceDao;
+	
+	CurrentPrice currPrice = new CurrentPrice();
 
 	@Test
 	public void testGetCurrentPrice() {
-		CurrentPrice currPrice = productPriceDao.getCurrentPrice("13860428");
-		assertEquals("13.45", currPrice.getValue());
-		CurrentPrice currPrice2 = productPriceDao.getCurrentPrice("123456");
-		assertEquals(null, currPrice2.getValue());
+		CurrentPrice currPrice = productPriceDao.getCurrentPrice("123456");
+		assertEquals(null, currPrice);
+	}
+
+	@Test()
+	public void testGetCurrentPriceForNull() {
+		CurrentPrice currPrice = productPriceDao.getCurrentPrice("-");
+		assertEquals(null,currPrice);
+		CurrentPrice currPrice2 = productPriceDao.getCurrentPrice("-1");
+		assertEquals(null,currPrice2);
+		CurrentPrice currPrice3 = productPriceDao.getCurrentPrice("");
+		assertEquals(null,currPrice3);
 	}
 
 	@Test(expected = RetailException.class)
-	public void testGetCurrentPriceForException() {
-		productPriceDao.getCurrentPrice("-");
-		productPriceDao.getCurrentPrice("-1");
-		productPriceDao.getCurrentPrice("");
-	}
-
-	@Test(expected = RetailException.class)
-	public void testUpdateCurrentPriceException() {
-		CurrentPrice currPrice = new CurrentPrice();
+	public void testUpdateCurrentPriceInvalidValueException() {
+		
 		currPrice.setValue("-1");
 		currPrice.setCurrency_code("USD");
 		productPriceDao.updateCurrentPrice("123456", currPrice);
-
-		currPrice.setValue("");
-		currPrice.setCurrency_code("USD");
-		productPriceDao.updateCurrentPrice("123456", currPrice);
-
+		
 		currPrice.setValue("abc");
 		currPrice.setCurrency_code("USD");
 		productPriceDao.updateCurrentPrice("123456", currPrice);
-
+		
 		currPrice.setValue("^!$%@");
 		currPrice.setCurrency_code("USD");
 		productPriceDao.updateCurrentPrice("123456", currPrice);
 
+	}
+	
+	@Test(expected = RetailException.class)
+	public void testUpdateCurrentPriceBlankValueException() {
+		currPrice.setValue("");
+		currPrice.setCurrency_code("USD");
+		productPriceDao.updateCurrentPrice("123456", currPrice);
+	}
+	
+	@Test(expected = RetailException.class)
+	public void testUpdateCurrentPriceInvalidCurrencyCodeException() {
+		
 		currPrice.setValue("1");
 		currPrice.setCurrency_code("XSD");
 		productPriceDao.updateCurrentPrice("123456", currPrice);
-
+		
+	}
+	
+	@Test(expected = RetailException.class)
+	public void testUpdateCurrentPriceBlankCurrencyCodeException() {
 		currPrice.setValue("1");
 		currPrice.setCurrency_code("");
 		productPriceDao.updateCurrentPrice("123456", currPrice);

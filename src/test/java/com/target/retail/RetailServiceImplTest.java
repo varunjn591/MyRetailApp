@@ -22,7 +22,6 @@ public class RetailServiceImplTest {
 	@Test
 	public void testGetProductDetails() {
 		RetailResponse retail = retailService.getProductDetails("13860428");
-		assertEquals("13.45", retail.getCurrent_price().getValue());
 		assertEquals("The Big Lebowski (Blu-ray)", retail.getName());
 	}
 	
@@ -33,12 +32,76 @@ public class RetailServiceImplTest {
 		retailService.getProductDetails("@^*&!");
 	}
 
+	@Test
+	public void testUpdateProductPriceCorrectDetails() {
+		CurrentPrice currPrice = new CurrentPrice();
+		currPrice.setValue("100.0");
+		currPrice.setCurrency_code("USD");
+		retailService.updateProductPriceDetails("123123", currPrice);
+	}
+	
+	@Test
+	public void testUpdateProductForPrecisionPriceDetails() {
+		CurrentPrice currPrice = new CurrentPrice();
+		currPrice.setValue("123.56");
+		currPrice.setCurrency_code("USD");
+		retailService.updateProductPriceDetails("123123", currPrice);
+	}
+	
 	@Test(expected = RetailException.class)
-	public void testUpdateProductPriceDetails() {
+	public void testUpdateProductForNegativePriceDetails() {
 		CurrentPrice currPrice = new CurrentPrice();
 		currPrice.setValue("-1");
 		currPrice.setCurrency_code("USD");
-		retailService.updateProductPriceDetails("123456", currPrice);
+		retailService.updateProductPriceDetails("123123", currPrice);
+	}
+	
+	@Test(expected = RetailException.class)
+	public void testUpdateProductForEmptyPriceDetails() {
+		CurrentPrice currPrice = new CurrentPrice();
+		currPrice.setValue("");
+		currPrice.setCurrency_code("USD");
+		retailService.updateProductPriceDetails("123123", currPrice);
+	}
+	
+	@Test(expected = RetailException.class)
+	public void testUpdateProductForStringValuePriceDetails() {
+		CurrentPrice currPrice = new CurrentPrice();
+		currPrice.setValue("abcd$%&");
+		currPrice.setCurrency_code("USD");
+		retailService.updateProductPriceDetails("123123", currPrice);
+	}
+	
+	@Test
+	public void testUpdateProductForLongPrecisionPriceDetails() {
+		CurrentPrice currPrice = new CurrentPrice();
+		currPrice.setValue("0.123456789");
+		currPrice.setCurrency_code("USD");
+		retailService.updateProductPriceDetails("123123", currPrice);
+	}
+	
+	@Test(expected = RetailException.class)
+	public void testUpdateProductForEmptyCurrencyPriceDetails() {
+		CurrentPrice currPrice = new CurrentPrice();
+		currPrice.setValue("123");
+		currPrice.setCurrency_code("");
+		retailService.updateProductPriceDetails("123123", currPrice);
+	}
+	
+	@Test(expected = RetailException.class)
+	public void testUpdateProductForInvalidCurrencyPriceDetails() {
+		CurrentPrice currPrice = new CurrentPrice();
+		currPrice.setValue("123");
+		currPrice.setCurrency_code("asdjk^#*");
+		retailService.updateProductPriceDetails("123123", currPrice);
+	}
+	
+	@Test(expected = RetailException.class)
+	public void testUpdateProductForEmptyProductIdPriceDetails() {
+		CurrentPrice currPrice = new CurrentPrice();
+		currPrice.setValue("123");
+		currPrice.setCurrency_code("USD");
+		retailService.updateProductPriceDetails("", currPrice);
 	}
 
 }
